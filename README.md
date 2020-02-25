@@ -10,6 +10,10 @@ For full documentation:
 For library development guide, 
 [read the docs](https://illuscio-dev.github.io/islelib-py/).
 
+## Installation
+
+``pip install grahamcracker``
+
 ### Prerequisites
 
 Python 3.7+
