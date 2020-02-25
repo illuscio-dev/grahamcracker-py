@@ -1,0 +1,277 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>grahamcracker-py &mdash; grahamcracker 1.0.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Basic Usage" href="basic_usage.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="#" class="icon icon-home"> grahamcracker
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">grahamcracker-py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basic_usage.html">Basic Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pre_recs.html">Before You Get Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="writing_documentation.html">Writing Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_guide.html">API Specification</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">grahamcracker</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#">Docs</a> &raquo;</li>
+        
+      <li>grahamcracker-py</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <span class="target" id="module-grahamcracker"></span><div class="section" id="grahamcracker-py">
+<h1>grahamcracker-py<a class="headerlink" href="#grahamcracker-py" title="Permalink to this headline">¶</a></h1>
+<p>grahamcracker goes great with marshmallow! Use <code class="docutils literal notranslate"><span class="pre">grahamcracker</span></code> to automatically make
+<a class="reference external" href="https://marshmallow.readthedocs.io/en/3.0/">marshmallow</a> schemas from dataclasses.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">uuid</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grahamcracker</span> <span class="kn">import</span> <span class="n">DataSchema</span><span class="p">,</span> <span class="n">schema_for</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@dataclass</span>
+<span class="gp">... </span><span class="k">class</span> <span class="nc">Name</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">id</span><span class="p">:</span> <span class="n">uuid</span><span class="o">.</span><span class="n">UUID</span>
+<span class="gp">... </span>    <span class="n">first</span><span class="p">:</span> <span class="nb">str</span>
+<span class="gp">... </span>    <span class="n">last</span><span class="p">:</span> <span class="nb">str</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@schema_for</span><span class="p">(</span><span class="n">Name</span><span class="p">)</span>
+<span class="gp">... </span><span class="k">class</span> <span class="nc">NameSchema</span><span class="p">(</span><span class="n">DataSchema</span><span class="p">[</span><span class="n">Name</span><span class="p">]):</span>
+<span class="gp">... </span>    <span class="k">pass</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name_id</span> <span class="o">=</span> <span class="s2">&quot;fbd6283c-1963-4493-bf1e-b69ae28ee8f6&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;first&quot;</span><span class="p">:</span> <span class="s2">&quot;Harry&quot;</span><span class="p">,</span> <span class="s2">&quot;last&quot;</span><span class="p">:</span> <span class="s2">&quot;Potter&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">name_id</span><span class="p">}</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name</span> <span class="o">=</span> <span class="n">NameSchema</span><span class="p">()</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">name_data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name</span>
+<span class="go">Name(id=UUID(&#39;fbd6283c-1963-4493-bf1e-b69ae28ee8f6&#39;), first=&#39;Harry&#39;, last=&#39;Potter&#39;)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dumped</span> <span class="o">=</span> <span class="n">NameSchema</span><span class="p">()</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dumped</span>
+<span class="go">{&#39;first&#39;: &#39;Harry&#39;, &#39;last&#39;: &#39;Potter&#39;, &#39;id&#39;: &#39;fbd6283c-1963-4493-bf1e-b69ae28ee8f6&#39;}</span>
+</pre></div>
+</div>
+<p>The uuid is automatically serialized / deserialized and the dataclass is handled
+seamlessly.</p>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">grahamcracker-py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basic_usage.html">Basic Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pre_recs.html">Before You Get Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pre_recs.html#background-reading">Background Reading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pre_recs.html#compatibility">Compatibility</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#grahamcracker-suppositions">Grahamcracker Suppositions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#partial-loading">Partial Loading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#loading-as-dict">Loading as Dict</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#supply-existing-schemas">Supply Existing Schemas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#supply-marshmallow-fields">Supply Marshmallow Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#pass-marshmallow-field-settings">Pass Marshmallow Field Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#use-marshmallow-method-decorators">Use Marshmallow method decorators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#email-and-url-fields">Email and URL fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#fast-dumps">Fast Dumps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#normalize-many">Normalize Many</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="writing_documentation.html">Writing Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="writing_documentation.html#docstrings">Docstrings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="writing_documentation.html#field-descriptions">Field Descriptions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api_guide.html">API Specification</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api_guide.html#dataclass-schema">dataclass_schema()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_guide.html#schema-for">&#64;schema_for</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_guide.html#dataschema-base-class">DataSchema Base Class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_guide.html#garams-dataclass">Garams dataclass</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api_guide.html#nestedoptional-field">NestedOptional Field</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="basic_usage.html" class="btn btn-neutral float-right" title="Basic Usage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright &#39;2018, Illuscio&#39;
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
