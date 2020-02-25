@@ -1,0 +1,631 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Quick Start &mdash; grahamcracker 1.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Writing Documentation" href="writing_documentation.html" />
+    <link rel="prev" title="Before You Get Started" href="pre_recs.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> grahamcracker
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">grahamcracker-py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basic_usage.html">Basic Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pre_recs.html">Before You Get Started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Quick Start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#grahamcracker-suppositions">Grahamcracker Suppositions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#partial-loading">Partial Loading</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#loading-as-dict">Loading as Dict</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#supply-existing-schemas">Supply Existing Schemas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#supply-marshmallow-fields">Supply Marshmallow Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pass-marshmallow-field-settings">Pass Marshmallow Field Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#use-marshmallow-method-decorators">Use Marshmallow method decorators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#email-and-url-fields">Email and URL fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fast-dumps">Fast Dumps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#normalize-many">Normalize Many</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="writing_documentation.html">Writing Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_guide.html">API Specification</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">grahamcracker</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Quick Start</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/quickstart.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <span class="target" id="module-grahamcracker"></span><div class="section" id="quick-start">
+<h1>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="grahamcracker-suppositions">
+<h2>Grahamcracker Suppositions<a class="headerlink" href="#grahamcracker-suppositions" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">grahamcracker</span></code> makes a couple deductions about each field’s settings when translating
+from a <code class="docutils literal notranslate"><span class="pre">dataclass</span></code> to a marshmallow <code class="docutils literal notranslate"><span class="pre">Schema</span></code>.</p>
+<blockquote>
+<div><ul>
+<li><p>Optional Types: pass <code class="docutils literal notranslate"><span class="pre">True</span></code> to the <code class="docutils literal notranslate"><span class="pre">allow_none</span></code> marshmallow Field param,
+otherwise <code class="docutils literal notranslate"><span class="pre">False</span></code> is passed.</p></li>
+<li><p>If the dataclass field has neither a <code class="docutils literal notranslate"><span class="pre">default</span></code> or <code class="docutils literal notranslate"><span class="pre">default_factory</span></code> value,
+the <code class="docutils literal notranslate"><span class="pre">required</span></code> marshmallow Field param is set to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">default</span></code> and <code class="docutils literal notranslate"><span class="pre">default_factory</span></code> <code class="docutils literal notranslate"><span class="pre">dataclass.field()</span></code> values are passed to
+both the <code class="docutils literal notranslate"><span class="pre">default</span></code> and <code class="docutils literal notranslate"><span class="pre">missing</span></code> marshmallow Field params, and <code class="docutils literal notranslate"><span class="pre">required</span></code> is
+set to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Union</span></code> types raise a <code class="docutils literal notranslate"><span class="pre">TypeError</span></code> as Marshmallow does not support unions
+natively.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">All</span></code>, following the logic above, is also rejected with a <code class="docutils literal notranslate"><span class="pre">TypeError</span></code>.</p></li>
+<li><p>Marshmallow translates types as follows:</p>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 52%" />
+<col style="width: 48%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>dataclass type</p></th>
+<th class="head"><p>marshmallow type</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">EmailStr</span></code>*</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fields.Email</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">URLStr</span></code>*</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fields.URL</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fields.Str</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">int</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fields.Int</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">float</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fields.Float</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">bool</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fields.Bool</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">list</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fields.List</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">dict</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fields.Dict</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">datetime.datetime</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fields.DateTime</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">datetime.date</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fields.Date</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">datetime.time</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fields.Time</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">datetime.timedelta</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fields.TimeDelta</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">uuid.UUID</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fields.UUID</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Mapping</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fields.Dict</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">Collection</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fields.List</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>* EmailStr and URLStr are subclasses of str supplied by this lib. They are used
+to signal that a field is specifically an e-mail or url so the appropriate
+marshmallow field is used</p>
+</div></blockquote>
+</li>
+<li><p>For <code class="docutils literal notranslate"><span class="pre">Dict</span></code> or <code class="docutils literal notranslate"><span class="pre">List</span></code>/<code class="docutils literal notranslate"><span class="pre">Collection</span></code> types, values passed to the generic type
+will be converted to item or key / value type arguments to their marshmallow
+counterpart.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dict</span></code> can be passed (no arguments) but <code class="docutils literal notranslate"><span class="pre">list</span></code> with no arguments cannot, since
+marshmallow requires that lists have a type, while typing of dict keys and values
+is optional.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">grahamcracker</span></code> will find the first type that passes an <code class="docutils literal notranslate"><span class="pre">issubclass()</span></code> check,
+searched in the order above.</p></li>
+<li><p>A <code class="docutils literal notranslate"><span class="pre">{type,</span> <span class="pre">fields.Field</span> <span class="pre">/</span> <span class="pre">Schema}</span></code> mapping can be passed to <code class="docutils literal notranslate"><span class="pre">type-handlers</span></code> to
+extend the list. User-passed types are checked first.</p></li>
+<li><p>dataclass fields which are themselves dataclasses will have a schema generated for
+them, placed in a <code class="docutils literal notranslate"><span class="pre">fields.Nested</span></code> marshmallow field. dataclasses with a schema
+passed to <code class="docutils literal notranslate"><span class="pre">type_handlers</span></code> will use that instead of being auto-generated.</p></li>
+<li><p>non-dataclass Types which do not appear in the list above will raise a
+<code class="docutils literal notranslate"><span class="pre">TypeError</span></code> unless a field or schema for them is explicitly passed to
+<code class="docutils literal notranslate"><span class="pre">type_handlers</span></code>.</p></li>
+<li><p>These suppositions can be overridden. See <a class="reference internal" href="#pass-marshmallow-field-settings">Pass Marshmallow Field Settings</a>,
+and <a class="reference internal" href="#supply-existing-schemas">Supply Existing Schemas</a>.</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="partial-loading">
+<h2>Partial Loading<a class="headerlink" href="#partial-loading" title="Permalink to this headline">¶</a></h2>
+<p>Loading a schema with the <code class="docutils literal notranslate"><span class="pre">partial</span></code> argument set to <code class="docutils literal notranslate"><span class="pre">True</span></code> or a list of field names
+to <code class="docutils literal notranslate"><span class="pre">exclude</span></code>, <code class="docutils literal notranslate"><span class="pre">only</span></code>, or <code class="docutils literal notranslate"><span class="pre">partial</span></code> will result in any missing fields will be set
+to <code class="docutils literal notranslate"><span class="pre">grahamcracker.MISSING</span></code>, EVEN IF THE FIELD HAS A DEFAULT VALUE. This way we
+explicitly know what data was passed to the schema to load.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grahamcracker</span> <span class="kn">import</span> <span class="n">MISSING</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@dataclass</span>
+<span class="gp">... </span><span class="k">class</span> <span class="nc">Name</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">first</span><span class="p">:</span> <span class="nb">str</span>
+<span class="gp">... </span>    <span class="n">last</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Peake&quot;</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span> <span class="o">=</span> <span class="n">dataclass_schema</span><span class="p">(</span><span class="n">Name</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name</span> <span class="o">=</span> <span class="n">schema</span><span class="p">(</span><span class="n">partial</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">({</span><span class="s2">&quot;first&quot;</span><span class="p">:</span> <span class="s2">&quot;Billy&quot;</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name</span>
+<span class="go">Name(first=&#39;Billy&#39;, last=&lt;VALUE MISSING&gt;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">name</span><span class="o">.</span><span class="n">last</span> <span class="ow">is</span> <span class="n">MISSING</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>We can override this behavior by setting <code class="docutils literal notranslate"><span class="pre">use_defaults</span></code> to <code class="docutils literal notranslate"><span class="pre">True</span></code> when we init the
+schema.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span> <span class="o">=</span> <span class="n">dataclass_schema</span><span class="p">(</span><span class="n">Name</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name</span> <span class="o">=</span> <span class="n">schema</span><span class="p">(</span><span class="n">partial</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">use_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">({</span><span class="s2">&quot;first&quot;</span><span class="p">:</span> <span class="s2">&quot;Billy&quot;</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name</span>
+<span class="go">Name(first=&#39;Billy&#39;, last=&#39;Peake&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">assert</span> <span class="n">name</span><span class="o">.</span><span class="n">last</span> <span class="o">==</span> <span class="s2">&quot;Peake&quot;</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="loading-as-dict">
+<h2>Loading as Dict<a class="headerlink" href="#loading-as-dict" title="Permalink to this headline">¶</a></h2>
+<p>In some instances it may  be desirable to not load the full dataclass, but return a
+dict as marshmallow normally would. To do this, simply set the <code class="docutils literal notranslate"><span class="pre">load_dataclass=</span></code>
+param to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">name</span> <span class="o">=</span> <span class="n">schema</span><span class="p">(</span><span class="n">load_dataclass</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">({</span><span class="s2">&quot;first&quot;</span><span class="p">:</span> <span class="s2">&quot;Billy&quot;</span><span class="p">,</span> <span class="s2">&quot;last&quot;</span><span class="p">:</span> <span class="s2">&quot;Peake&quot;</span><span class="p">})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name</span>
+<span class="go">{&quot;first&quot;: &quot;Billy&quot;, &quot;last&quot;: &quot;Peake&quot;}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="supply-existing-schemas">
+<h2>Supply Existing Schemas<a class="headerlink" href="#supply-existing-schemas" title="Permalink to this headline">¶</a></h2>
+<p>Lets say we have the following dataclass, which contains a <code class="docutils literal notranslate"><span class="pre">fraction.Fraction</span></code></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">fractions</span> <span class="kn">import</span> <span class="n">Fraction</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@dataclass</span>
+<span class="gp">... </span><span class="k">class</span> <span class="nc">Ingredient</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+<span class="gp">... </span>    <span class="n">amount_cups</span><span class="p">:</span> <span class="n">Fraction</span>
+<span class="gp">...</span>
+</pre></div>
+</div>
+<p>And a schema for handling fractions:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">FractionSchema</span><span class="p">(</span><span class="n">Schema</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">numerator</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Int</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="n">denominator</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Int</span><span class="p">()</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="nd">@post_load</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">load_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Fraction</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="n">Fraction</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;numerator&quot;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;denominator&quot;</span><span class="p">])</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="nd">@pre_dump</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">dump_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Fraction</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="n">data_dict</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span>            <span class="s2">&quot;numerator&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">numerator</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="s2">&quot;denominator&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">denominator</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="p">}</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="n">data_dict</span>
+</pre></div>
+</div>
+<p>We can supply this schema to <a class="reference internal" href="api_guide.html#grahamcracker.dataclass_schema" title="grahamcracker.dataclass_schema"><code class="xref py py-func docutils literal notranslate"><span class="pre">dataclass_schema()</span></code></a> like so:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">IngredientSchema</span> <span class="o">=</span> <span class="n">dataclass_schema</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">Ingredient</span><span class="p">,</span> <span class="n">type_handlers</span><span class="o">=</span><span class="n">OrderedDict</span><span class="p">({</span><span class="n">Fraction</span><span class="p">:</span> <span class="n">FractionSchema</span><span class="p">})</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ingredient_data</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;flour&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;amount_cups&quot;</span><span class="p">:</span> <span class="p">{</span>
+<span class="gp">... </span>        <span class="s2">&quot;numerator&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+<span class="gp">... </span>        <span class="s2">&quot;denominator&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="p">}</span>
+<span class="gp">... </span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">IngredientSchema</span><span class="p">()</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ingredient_data</span><span class="p">)</span>
+<span class="go">Ingredient(name=&#39;flour&#39;, amount_cups=Fraction(1, 4))</span>
+</pre></div>
+</div>
+<p>User-passed type handlers are checked before the default fields listed in
+<code class="docutils literal notranslate"><span class="pre">suppositions</span></code>, so custom schemas can be passed for types like <code class="docutils literal notranslate"><span class="pre">List</span></code> or <code class="docutils literal notranslate"><span class="pre">Dict</span></code></p>
+<p>An <code class="docutils literal notranslate"><span class="pre">OrderedDict</span></code> is required so the correct type priority can be assured.</p>
+</div>
+<div class="section" id="supply-marshmallow-fields">
+<h2>Supply Marshmallow Fields<a class="headerlink" href="#supply-marshmallow-fields" title="Permalink to this headline">¶</a></h2>
+<p>In the above example, instead of having a schema for the fraction type, we could
+instead represent it as a string and use a custom field:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">FractionField</span><span class="p">(</span><span class="n">fields</span><span class="o">.</span><span class="n">Field</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">_deserialize</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">attr</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+<span class="gp">... </span>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Fraction</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="n">Fraction</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">_serialize</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Fraction</span><span class="p">,</span> <span class="n">attr</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+<span class="gp">... </span>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ingredient_data</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;flour&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;amount_cups&quot;</span><span class="p">:</span> <span class="s2">&quot;3/4&quot;</span>
+<span class="gp">... </span><span class="p">}</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@schema_for</span><span class="p">(</span><span class="n">Ingredient</span><span class="p">,</span> <span class="n">type_handlers</span><span class="o">=</span><span class="n">OrderedDict</span><span class="p">({</span><span class="n">Fraction</span><span class="p">:</span> <span class="n">FractionField</span><span class="p">}))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">IngredientSchema</span><span class="p">(</span><span class="n">DataSchema</span><span class="p">[</span><span class="n">Ingredient</span><span class="p">]):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">pass</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">IngredientSchema</span><span class="p">()</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ingredient_data</span><span class="p">)</span>
+<span class="go">Ingredient(name=&#39;flour&#39;, amount_cups=Fraction(3, 4))</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ingredient_obj</span> <span class="o">=</span> <span class="n">Ingredient</span><span class="p">(</span><span class="s2">&quot;flour&quot;</span><span class="p">,</span> <span class="n">amount_cups</span><span class="o">=</span><span class="s2">&quot;1/4&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">IngredientSchema</span><span class="p">()</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">ingredient_obj</span><span class="p">)</span>
+<span class="go">{&#39;name&#39;: &#39;flour&#39;, &#39;amount_cups&#39;: &#39;1/4&#39;}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="pass-marshmallow-field-settings">
+<h2>Pass Marshmallow Field Settings<a class="headerlink" href="#pass-marshmallow-field-settings" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="api_guide.html#grahamcracker.Garams" title="grahamcracker.Garams"><code class="xref py py-class docutils literal notranslate"><span class="pre">Garams</span></code></a> dataclass is provided as an easy way to pass params to the
+marshmallow field generated for that data. Lets pass a validation function.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">field</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">marshmallow</span> <span class="kn">import</span> <span class="n">ValidationError</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grahamcracker</span> <span class="kn">import</span> <span class="n">Garams</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">validate_name</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="c1"># we want to make sure each author has at least a first and last name</span>
+<span class="gp">... </span>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;name must contain at least first and last&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@dataclass</span>
+<span class="gp">... </span><span class="k">class</span> <span class="nc">BookModel</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span>
+<span class="gp">... </span>    <span class="n">author</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;garams&quot;</span><span class="p">:</span> <span class="n">Garams</span><span class="p">(</span><span class="n">validate</span><span class="o">=</span><span class="n">validate_name</span><span class="p">)})</span>
+<span class="gp">... </span>    <span class="n">copies_sold</span><span class="p">:</span> <span class="nb">int</span>
+<span class="gp">... </span>    <span class="n">copyright_year</span><span class="p">:</span> <span class="nb">int</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@schema_for</span><span class="p">(</span><span class="n">BookModel</span><span class="p">)</span>
+<span class="gp">... </span><span class="k">class</span> <span class="nc">BookSchema</span><span class="p">(</span><span class="n">DataSchema</span><span class="p">[</span><span class="n">BookModel</span><span class="p">]):</span>
+<span class="gp">... </span>    <span class="k">pass</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">book_data</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Harry Potter&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;JK Rowling&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;copies_sold&quot;</span><span class="p">:</span> <span class="mi">1000000000</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;copyright_year&quot;</span><span class="p">:</span> <span class="mi">1992</span>
+<span class="gp">... </span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">BookSchema</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">book_data</span><span class="p">)</span>
+<span class="go">{}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">book_data</span><span class="p">[</span><span class="s2">&quot;author&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Jim&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">BookSchema</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">book_data</span><span class="p">)</span>
+<span class="go">{&#39;author&#39;: [&#39;name must contain at least first and last&#39;]}</span>
+</pre></div>
+</div>
+<p>Field settings always override grahamcracker’s inferred settings.
+<code class="xref py py-func docutils literal notranslate"><span class="pre">grahamcracker.gfield()</span></code> allows you to pass Garams directly to the <code class="docutils literal notranslate"><span class="pre">garams</span></code> param.
+The value is passed to the field’s metadata as the manual example above.</p>
+<p><code class="xref py py-func docutils literal notranslate"><span class="pre">grahamcracker.gfield()</span></code> is otherwise identical to <code class="docutils literal notranslate"><span class="pre">dataclasses.field</span></code>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grahamcracker</span> <span class="kn">import</span> <span class="n">gfield</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@dataclass</span>
+<span class="gp">... </span><span class="k">class</span> <span class="nc">HasDefault</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">num</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">gfield</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">garams</span><span class="o">=</span><span class="n">Garams</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@schema_for</span><span class="p">(</span><span class="n">HasDefault</span><span class="p">)</span>
+<span class="gp">... </span><span class="k">class</span> <span class="nc">HasDefaultSchema</span><span class="p">(</span><span class="n">DataSchema</span><span class="p">[</span><span class="n">HasDefault</span><span class="p">]):</span>
+<span class="gp">... </span>    <span class="k">pass</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">HasDefaultSchema</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">({})</span>
+<span class="go">{&#39;num&#39;: [&#39;Missing data for required field.&#39;]}</span>
+</pre></div>
+</div>
+<p>Here, <cite>required</cite> would normally be inferred as false since <cite>num</cite> has a default
+value, but we have overridden it to tell our API it is, in-fact, required</p>
+</div>
+<div class="section" id="use-marshmallow-method-decorators">
+<h2>Use Marshmallow method decorators<a class="headerlink" href="#use-marshmallow-method-decorators" title="Permalink to this headline">¶</a></h2>
+<p>Decorated classes can make use of marshmallow’s method decorators, such as the
+<code class="docutils literal notranslate"><span class="pre">marshmallow.validates</span></code> decorator.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">marshmallow</span> <span class="kn">import</span> <span class="n">validates</span><span class="p">,</span> <span class="n">ValidationError</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@dataclass</span>
+<span class="gp">... </span><span class="k">class</span> <span class="nc">NeedsValidation</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">num</span><span class="p">:</span> <span class="nb">int</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@schema_for</span><span class="p">(</span><span class="n">NeedsValidation</span><span class="p">)</span>
+<span class="gp">... </span><span class="k">class</span> <span class="nc">NeedsValidationSchema</span><span class="p">(</span><span class="n">DataSchema</span><span class="p">[</span><span class="n">NeedsValidation</span><span class="p">]):</span>
+<span class="gp">... </span>    <span class="nd">@validates</span><span class="p">(</span><span class="s2">&quot;num&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">num_must_be_10</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">if</span> <span class="n">value</span> <span class="o">!=</span> <span class="mi">10</span><span class="p">:</span>
+<span class="gp">... </span>            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;value must be 10&quot;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">{&#39;required&#39;: True, &#39;allow_none&#39;: False}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">NeedsValidationSchema</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">({</span><span class="s2">&quot;num&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">})</span>
+<span class="go">{}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">NeedsValidationSchema</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">({</span><span class="s2">&quot;num&quot;</span><span class="p">:</span> <span class="mi">11</span><span class="p">})</span>
+<span class="go">{&#39;num&#39;: [&#39;value must be 10&#39;]}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="email-and-url-fields">
+<h2>Email and URL fields<a class="headerlink" href="#email-and-url-fields" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">EmailStr</span></code> and <code class="docutils literal notranslate"><span class="pre">URLStr</span></code> classes are supplied to signal that values should be
+emails or urls. The two classes are unmodified subclasses of <code class="docutils literal notranslate"><span class="pre">str</span></code></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grahamcracker</span> <span class="kn">import</span> <span class="n">EmailStr</span><span class="p">,</span> <span class="n">URLStr</span><span class="p">,</span> <span class="n">dataclass_schema</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@dataclass</span>
+<span class="gp">... </span><span class="k">class</span> <span class="nc">SpecialStrVals</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">email</span><span class="p">:</span> <span class="n">EmailStr</span>
+<span class="gp">... </span>    <span class="n">url</span><span class="p">:</span> <span class="n">URLStr</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span> <span class="o">=</span> <span class="n">dataclass_schema</span><span class="p">(</span><span class="n">SpecialStrVals</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">good_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;someone@gmail.com&quot;</span><span class="p">,</span> <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://google.com&quot;</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bad_data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="s2">&quot;dont&#39;t send me spam&quot;</span><span class="p">,</span> <span class="s2">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;go away&quot;</span><span class="p">}</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">good_data</span><span class="p">)</span>
+<span class="go">{}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">bad_data</span><span class="p">)</span>
+<span class="go">{&#39;email&#39;: [&#39;Not a valid email address.&#39;], &#39;url&#39;: [&#39;Not a valid URL.&#39;]}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="fast-dumps">
+<h2>Fast Dumps<a class="headerlink" href="#fast-dumps" title="Permalink to this headline">¶</a></h2>
+<p>Often, serialization does not require the overhead for validation and key transformation
+that marshmallow provides. Grahamcracker offers a more efficient method for serializing
+a json string using the <code class="docutils literal notranslate"><span class="pre">fast_dumps=</span></code> param.</p>
+<p>This parameter uses a generated json encoder to dump the object. All validation steps
+are skipped, as are any Method or Function fields. The one exception is field of
+non-json types, which still use the field’s <cite>_serialize()</cite> method. Partial options
+like, <code class="docutils literal notranslate"><span class="pre">partial=</span></code>, <code class="docutils literal notranslate"><span class="pre">only=</span></code> and <code class="docutils literal notranslate"><span class="pre">exclude=</span></code> are ignored. Objects are dumped as-is,
+keeping all keys that are not set to <code class="docutils literal notranslate"><span class="pre">MISSING</span></code>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">grahamcracker</span> <span class="kn">import</span> <span class="n">dataclass_schema</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">timeit</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nd">@dataclass</span>
+<span class="gp">... </span><span class="k">class</span> <span class="nc">Name</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">first</span><span class="p">:</span> <span class="nb">str</span>
+<span class="gp">... </span>    <span class="n">last</span><span class="p">:</span> <span class="nb">str</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">NameSchema</span> <span class="o">=</span> <span class="n">dataclass_schema</span><span class="p">(</span><span class="n">Name</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema_fast</span> <span class="o">=</span> <span class="n">NameSchema</span><span class="p">(</span><span class="n">fast_dumps</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema_normal</span> <span class="o">=</span> <span class="n">NameSchema</span><span class="p">()</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name_data</span> <span class="o">=</span> <span class="n">Name</span><span class="p">(</span><span class="s2">&quot;Harry&quot;</span><span class="p">,</span> <span class="s2">&quot;Potter&quot;</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">schema_fast</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">name_data</span><span class="p">)</span>
+<span class="go">&#39;{&quot;first&quot;: &quot;Harry&quot;, &quot;last&quot;: &quot;Potter&quot;}&#39;</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">normal_dump</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="n">schema_normal</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">name_data</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">fast_dump</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="n">schema_fast</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">name_data</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="n">normal_dump</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+<span class="go">0.23919811100000743</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="n">fast_dump</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+<span class="go">0.11337517399999797</span>
+</pre></div>
+</div>
+<p>On average <code class="docutils literal notranslate"><span class="pre">fast_dumps=True</span></code> makes <a class="reference internal" href="api_guide.html#grahamcracker.DataSchemaConcrete.dumps" title="grahamcracker.DataSchemaConcrete.dumps"><code class="xref py py-func docutils literal notranslate"><span class="pre">DataSchemaConcrete.dumps()</span></code></a> 2x faster than
+using the regular marshmallow method.</p>
+<p><strong>THIS SETTING ONLY WORKS FOR DUMPS</strong>, it has no affect on the behavior of
+<a class="reference internal" href="api_guide.html#grahamcracker.DataSchemaConcrete.dump" title="grahamcracker.DataSchemaConcrete.dump"><code class="xref py py-func docutils literal notranslate"><span class="pre">DataSchemaConcrete.dump()</span></code></a>.</p>
+</div>
+<div class="section" id="normalize-many">
+<h2>Normalize Many<a class="headerlink" href="#normalize-many" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">normalize_many=</span></code> init param allows schemas with <code class="docutils literal notranslate"><span class="pre">many=</span></code> set to <code class="docutils literal notranslate"><span class="pre">True</span></code> to load
+single documents instead of only lists. The resulting object will always be a list.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">name_data_single</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;first&quot;</span><span class="p">:</span> <span class="s2">&quot;Harry&quot;</span><span class="p">,</span> <span class="s2">&quot;last&quot;</span><span class="p">:</span> <span class="s2">&quot;Potter&quot;</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">name_data_many</span> <span class="o">=</span> <span class="p">[</span>
+<span class="gp">... </span>    <span class="p">{</span><span class="s2">&quot;first&quot;</span><span class="p">:</span> <span class="s2">&quot;Harry&quot;</span><span class="p">,</span> <span class="s2">&quot;last&quot;</span><span class="p">:</span> <span class="s2">&quot;Potter&quot;</span><span class="p">},</span>
+<span class="gp">... </span>    <span class="p">{</span><span class="s2">&quot;first&quot;</span><span class="p">:</span> <span class="s2">&quot;Hermione&quot;</span><span class="p">,</span> <span class="s2">&quot;last&quot;</span><span class="p">:</span> <span class="s2">&quot;Granger&quot;</span><span class="p">},</span>
+<span class="gp">... </span><span class="p">]</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">normalize_schema</span> <span class="o">=</span> <span class="n">NameSchema</span><span class="p">(</span><span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">normalize_many</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">normalize_schema</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">name_data_single</span><span class="p">)</span>
+<span class="go">[Name(first=&#39;Harry&#39;, last=&#39;Potter&#39;)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">normalize_schema</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">name_data_many</span><span class="p">)</span>
+<span class="go">[Name(first=&#39;Harry&#39;, last=&#39;Potter&#39;), Name(first=&#39;Hermione&#39;, last=&#39;Granger&#39;)]</span>
+</pre></div>
+</div>
+<p>Now the same schema to be used when it is uncertain whether a single document or list of
+documents need to be converted.</p>
+<p>This option only has an effect on <code class="docutils literal notranslate"><span class="pre">load</span></code> / <code class="docutils literal notranslate"><span class="pre">loads</span></code>, it does not have any effect on
+<code class="docutils literal notranslate"><span class="pre">dump</span></code> / <code class="docutils literal notranslate"><span class="pre">dumps</span></code></p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="writing_documentation.html" class="btn btn-neutral float-right" title="Writing Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="pre_recs.html" class="btn btn-neutral float-left" title="Before You Get Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright &#39;2018, Illuscio&#39;
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

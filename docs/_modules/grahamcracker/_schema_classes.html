@@ -1,0 +1,427 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>grahamcracker._schema_classes &mdash; grahamcracker 1.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> grahamcracker
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">grahamcracker-py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../basic_usage.html">Basic Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pre_recs.html">Before You Get Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../writing_documentation.html">Writing Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_guide.html">API Specification</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">grahamcracker</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>grahamcracker._schema_classes</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for grahamcracker._schema_classes</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">dataclasses</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">TypeVar</span><span class="p">,</span>
+    <span class="n">Generic</span><span class="p">,</span>
+    <span class="n">Type</span><span class="p">,</span>
+    <span class="n">Union</span><span class="p">,</span>
+    <span class="n">Optional</span><span class="p">,</span>
+    <span class="n">Any</span><span class="p">,</span>
+    <span class="n">Tuple</span><span class="p">,</span>
+    <span class="n">List</span><span class="p">,</span>
+    <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">Mapping</span><span class="p">,</span>
+    <span class="n">Sequence</span><span class="p">,</span>
+    <span class="n">Set</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">marshmallow</span> <span class="kn">import</span> <span class="n">Schema</span><span class="p">,</span> <span class="n">pre_load</span><span class="p">,</span> <span class="n">post_load</span><span class="p">,</span> <span class="n">pre_dump</span>
+
+<span class="kn">from</span> <span class="nn">._load_dataclass</span> <span class="kn">import</span> <span class="n">dataclass_from_dict</span>
+<span class="kn">from</span> <span class="nn">._load_dataclass</span> <span class="kn">import</span> <span class="n">_MissingType</span><span class="p">,</span> <span class="n">MISSING</span>
+<span class="kn">from</span> <span class="nn">._fast_conversion</span> <span class="kn">import</span> <span class="n">FastEncoder</span>
+
+
+<span class="n">ObjType</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;ObjType&quot;</span><span class="p">)</span>
+<span class="n">RecordType</span> <span class="o">=</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
+<span class="n">LoadType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">RecordType</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">RecordType</span><span class="p">]]</span>
+<span class="n">DumpType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">RecordType</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">RecordType</span><span class="p">],</span> <span class="n">ObjType</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">ObjType</span><span class="p">]]</span>
+
+
+<span class="c1"># NOTE:</span>
+<span class="c1"># There are a NUMBER of type: ignore comments throughout this code. Marshmallow&#39;s typing</span>
+<span class="c1"># while good for auto-complete, is not implemented correctly for its subclassing API</span>
+<span class="c1"># in many cases. It also uses implicit Optional arguments, while grahamcracker uses</span>
+<span class="c1"># explicit optional arguments. Therefore a number of static type check errors need to</span>
+<span class="c1"># be ignored.</span>
+
+
+<div class="viewcode-block" id="DataSchemaConcrete"><a class="viewcode-back" href="../../api_guide.html#grahamcracker.DataSchemaConcrete">[docs]</a><span class="k">class</span> <span class="nc">DataSchemaConcrete</span><span class="p">(</span><span class="n">Schema</span><span class="p">):</span>
+    <span class="n">__model__</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">ObjType</span><span class="p">]</span>  <span class="c1"># type: ignore</span>
+
+    <span class="n">WRITE_PROTECTED</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This attribute is reserved for fields that should be protected in write-methods</span>
+<span class="sd">    like a POST or PATCH. To be passed to init as ``exclude`` param when checking</span>
+<span class="sd">    incoming objects for these methods. It has no actual effect on the schema by itself.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">UPDATE_ALLOWED</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Some classes may have a very limited number of attributes that are allowed to be</span>
+<span class="sd">    updated in a PATCH. This attribute can be used as a consistent way to notate them.</span>
+<span class="sd">    To be passed to init as ``only`` param when checking incoming objects in these</span>
+<span class="sd">    methods. It has no actual effect on the schema by itself.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_FAST_ENCODER</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">FastEncoder</span><span class="p">]</span> <span class="o">=</span> <span class="n">FastEncoder</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">only</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">exclude</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(),</span>
+        <span class="n">many</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">normalize_many</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">context</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">load_only</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(),</span>
+        <span class="n">dump_only</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(),</span>
+        <span class="n">partial</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">unknown</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
+        <span class="n">load_dataclass</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">use_defaults</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">fast_dumps</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="k">if</span> <span class="n">context</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">context</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+        <span class="c1"># We have to use the context object here so options are passed to nested</span>
+        <span class="c1"># schemas. Part of this is only setting these options if they are not the</span>
+        <span class="c1"># default, so that context is not overridden in nested schemas during this init.</span>
+        <span class="k">if</span> <span class="n">load_dataclass</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">context</span><span class="p">[</span><span class="s2">&quot;load_dataclass&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">load_dataclass</span>
+
+        <span class="k">if</span> <span class="n">use_defaults</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">context</span><span class="p">[</span><span class="s2">&quot;use_defaults&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">use_defaults</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fast_dumps</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">fast_dumps</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">normalize_many</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">normalize_many</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">only</span><span class="o">=</span><span class="n">only</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
+            <span class="n">exclude</span><span class="o">=</span><span class="n">exclude</span><span class="p">,</span>
+            <span class="n">many</span><span class="o">=</span><span class="n">many</span><span class="p">,</span>
+            <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">,</span>
+            <span class="n">load_only</span><span class="o">=</span><span class="n">load_only</span><span class="p">,</span>
+            <span class="n">dump_only</span><span class="o">=</span><span class="n">dump_only</span><span class="p">,</span>
+            <span class="n">partial</span><span class="o">=</span><span class="n">partial</span><span class="p">,</span>
+            <span class="n">unknown</span><span class="o">=</span><span class="n">unknown</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">load_dataclass</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;load_dataclass&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">use_defaults</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;use_defaults&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+<div class="viewcode-block" id="DataSchemaConcrete.load"><a class="viewcode-back" href="../../api_guide.html#grahamcracker.DataSchemaConcrete.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span>  <span class="c1"># type: ignore</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">data</span><span class="p">:</span> <span class="n">LoadType</span><span class="p">,</span>
+        <span class="n">many</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">partial</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">unknown</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">ObjType</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">ObjType</span><span class="p">],</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;Typed alias of ``marshmallow.Schema.load``&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
+            <span class="n">data</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
+            <span class="n">many</span><span class="o">=</span><span class="n">many</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
+            <span class="n">partial</span><span class="o">=</span><span class="n">partial</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
+            <span class="n">unknown</span><span class="o">=</span><span class="n">unknown</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataSchemaConcrete.loads"><a class="viewcode-back" href="../../api_guide.html#grahamcracker.DataSchemaConcrete.loads">[docs]</a>    <span class="k">def</span> <span class="nf">loads</span><span class="p">(</span>  <span class="c1"># type: ignore</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">],</span>
+        <span class="n">many</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">partial</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">unknown</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">ObjType</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">ObjType</span><span class="p">],</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;Typed alias of ``marshmallow.Schema.loads``&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span>
+            <span class="n">data</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
+            <span class="n">many</span><span class="o">=</span><span class="n">many</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
+            <span class="n">partial</span><span class="o">=</span><span class="n">partial</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
+            <span class="n">unknown</span><span class="o">=</span><span class="n">unknown</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
+            <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="DataSchemaConcrete.dump"><a class="viewcode-back" href="../../api_guide.html#grahamcracker.DataSchemaConcrete.dump">[docs]</a>    <span class="k">def</span> <span class="nf">dump</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">DumpType</span><span class="p">,</span> <span class="n">many</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;Typed alias of ``marshmallow.Schema.dump``&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">many</span><span class="o">=</span><span class="n">many</span><span class="p">)</span>  <span class="c1"># type: ignore</span></div>
+
+<div class="viewcode-block" id="DataSchemaConcrete.dumps"><a class="viewcode-back" href="../../api_guide.html#grahamcracker.DataSchemaConcrete.dumps">[docs]</a>    <span class="k">def</span> <span class="nf">dumps</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">DumpType</span><span class="p">,</span> <span class="n">many</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Typed alias of ``marshmallow.Schema.dumps``&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fast_dumps</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_FAST_ENCODER</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">many</span><span class="o">=</span><span class="n">many</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># type: ignore</span></div>
+
+<div class="viewcode-block" id="DataSchemaConcrete.validate"><a class="viewcode-back" href="../../api_guide.html#grahamcracker.DataSchemaConcrete.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span>  <span class="c1"># type: ignore</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">data</span><span class="p">:</span> <span class="n">LoadType</span><span class="p">,</span>
+        <span class="n">many</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">partial</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;Typed alias of ``marshmallow.Schema.validate``&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">many</span><span class="o">=</span><span class="n">many</span><span class="p">,</span> <span class="n">partial</span><span class="o">=</span><span class="n">partial</span><span class="p">)</span>  <span class="c1"># type: ignore</span></div>
+
+    <span class="nd">@pre_load</span><span class="p">(</span><span class="n">pass_many</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">normalize_many_load</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]],</span> <span class="o">*</span><span class="p">,</span> <span class="n">many</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">partial</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">dict</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">dict</span><span class="p">]]:</span>
+        <span class="k">if</span> <span class="n">many</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalize_many</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">[</span><span class="n">data</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">data</span>
+
+<div class="viewcode-block" id="DataSchemaConcrete.load_obj"><a class="viewcode-back" href="../../api_guide.html#grahamcracker.DataSchemaConcrete.load_obj">[docs]</a>    <span class="nd">@post_load</span><span class="p">(</span><span class="n">pass_many</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">load_obj</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span> <span class="n">many</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">partial</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">ObjType</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        ``marshmallow.post-load`` method. Converts to ``self.__model__`` type using</span>
+<span class="sd">        ``dacite.from_dict()`` and the __model__ dataclass. If partial loading,</span>
+<span class="sd">        ``dataclasses.MISSING`` is used as any allowed missing values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_dataclass</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">dataclass_from_dict</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__model__</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">use_defaults</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">use_defaults</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">data</span></div>
+
+<div class="viewcode-block" id="DataSchemaConcrete.dump_obj"><a class="viewcode-back" href="../../api_guide.html#grahamcracker.DataSchemaConcrete.dump_obj">[docs]</a>    <span class="nd">@pre_dump</span><span class="p">(</span><span class="n">pass_many</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">dump_obj</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">ObjType</span><span class="p">,</span> <span class="n">_MissingType</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span> <span class="n">many</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">ObjType</span><span class="p">,</span> <span class="n">_MissingType</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        ``marshmallow.pre_dump`` method. Passes through dicts, but converts dataclasses</span>
+<span class="sd">        using ``dataclasses.asdict()``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dumped</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">ObjType</span><span class="p">,</span> <span class="n">_MissingType</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">dataclasses</span><span class="o">.</span><span class="n">is_dataclass</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+            <span class="n">dumped</span> <span class="o">=</span> <span class="n">dataclasses</span><span class="o">.</span><span class="n">asdict</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dumped</span> <span class="o">=</span> <span class="n">data</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dumped</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">):</span>
+            <span class="n">result</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">ObjType</span><span class="p">,</span> <span class="n">_MissingType</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">dumped</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">MISSING</span>
+            <span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">dumped</span>
+
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="DataSchemaConcrete.write_protected"><a class="viewcode-back" href="../../api_guide.html#grahamcracker.DataSchemaConcrete.write_protected">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">write_protected</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;DataSchemaConcrete&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns instantiated schema with ``cls.WRITE_PROTECTED`` passed to ``exclude``</span>
+<span class="sd">        param (see marshmallow documentation). Intended to allow uniform declaration of</span>
+<span class="sd">        fields excluded from POST, PATCH, and PUT operations, and more consistent, less</span>
+<span class="sd">        bug-prone mirroring of that behavior between client and server implementations.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">this_exclude</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;exclude&quot;</span><span class="p">,</span> <span class="nb">list</span><span class="p">())</span>
+        <span class="n">this_exclude</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">WRITE_PROTECTED</span><span class="p">)</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;exclude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">this_exclude</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div></div>
+
+
+<span class="k">class</span> <span class="nc">DataSchema</span><span class="p">(</span><span class="n">DataSchemaConcrete</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">ObjType</span><span class="p">]):</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">write_protected</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;DataSchema[ObjType]&quot;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;This is just here for the additional type hinting.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">write_protected</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright &#39;2018, Illuscio&#39;
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

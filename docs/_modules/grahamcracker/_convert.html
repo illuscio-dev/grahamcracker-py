@@ -1,0 +1,628 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>grahamcracker._convert &mdash; grahamcracker 1.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> grahamcracker
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">grahamcracker-py</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../basic_usage.html">Basic Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pre_recs.html">Before You Get Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../writing_documentation.html">Writing Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api_guide.html">API Specification</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">grahamcracker</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>grahamcracker._convert</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for grahamcracker._convert</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">ast</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">textwrap</span>
+<span class="kn">from</span> <span class="nn">typing_inspect_isle</span> <span class="kn">import</span> <span class="n">class_typevar_mapping</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">is_dataclass</span><span class="p">,</span>
+    <span class="n">MISSING</span> <span class="k">as</span> <span class="n">DC_MISSING</span><span class="p">,</span>
+    <span class="n">asdict</span><span class="p">,</span>
+    <span class="n">fields</span> <span class="k">as</span> <span class="n">dc_fields</span><span class="p">,</span>
+    <span class="n">Field</span> <span class="k">as</span> <span class="n">DCField</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Any</span><span class="p">,</span>
+    <span class="n">Type</span><span class="p">,</span>
+    <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">cast</span><span class="p">,</span>
+    <span class="n">Union</span><span class="p">,</span>
+    <span class="n">Mapping</span><span class="p">,</span>
+    <span class="n">Optional</span><span class="p">,</span>
+    <span class="n">TypeVar</span><span class="p">,</span>
+    <span class="n">Tuple</span><span class="p">,</span>
+    <span class="n">Callable</span><span class="p">,</span>
+    <span class="n">List</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">typing_inspect_isle</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">is_optional_type</span><span class="p">,</span>
+    <span class="n">is_union_type</span><span class="p">,</span>
+    <span class="n">get_args</span><span class="p">,</span>
+    <span class="n">is_generic_type</span><span class="p">,</span>
+    <span class="n">get_origin</span><span class="p">,</span>
+    <span class="n">is_typevar</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">marshmallow</span> <span class="kn">import</span> <span class="n">fields</span><span class="p">,</span> <span class="n">Schema</span>
+<span class="kn">from</span> <span class="nn">marshmallow.fields</span> <span class="kn">import</span> <span class="n">Field</span>
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Mapping</span> <span class="k">as</span> <span class="n">MappingABC</span>
+
+<span class="kn">from</span> <span class="nn">._settings_classes</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">HandlerType</span><span class="p">,</span>
+    <span class="n">_SchemaGenSettings</span><span class="p">,</span>
+    <span class="n">_FieldGenSettings</span><span class="p">,</span>
+    <span class="n">Garams</span><span class="p">,</span>
+    <span class="n">DEFAULT</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">._field_conversion</span> <span class="kn">import</span> <span class="n">FIELD_CONVERSION</span>
+<span class="kn">from</span> <span class="nn">._schema_classes</span> <span class="kn">import</span> <span class="n">DataSchemaConcrete</span>
+<span class="kn">from</span> <span class="nn">._field_classes</span> <span class="kn">import</span> <span class="n">NestedOptional</span>
+<span class="kn">from</span> <span class="nn">._schema_classes</span> <span class="kn">import</span> <span class="n">DataSchema</span>
+<span class="kn">from</span> <span class="nn">._fast_conversion</span> <span class="kn">import</span> <span class="n">FastEncoder</span>
+
+<span class="n">DEFAULT_SCHEMA</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">DataSchemaConcrete</span><span class="p">]</span> <span class="o">=</span> <span class="n">DataSchema</span>
+
+
+<span class="n">SchemaType</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;SchemaType&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">DataSchemaConcrete</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="dataclass_schema"><a class="viewcode-back" href="../../api_guide.html#grahamcracker.dataclass_schema">[docs]</a><span class="k">def</span> <span class="nf">dataclass_schema</span><span class="p">(</span>
+    <span class="n">data_class</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="n">schema_base</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">SchemaType</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT_SCHEMA</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
+    <span class="n">type_handlers</span><span class="p">:</span> <span class="s2">&quot;Optional[Dict[Type[Any], Type[HandlerType]]]&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">add_handler</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">SchemaType</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts a dataclass to a Marshmallow schema</span>
+
+<span class="sd">    :param data_class: dataclass to convert</span>
+<span class="sd">    :param schema_base: ``marshmallow.Schema`` class to subclass</span>
+<span class="sd">    :param type_handlers: ``{type, Schema}`` mapping of existing schemas to use for</span>
+<span class="sd">        given type.</span>
+<span class="sd">    :param add_handler: Whether to add this schema to ``type_handlers``.</span>
+
+<span class="sd">    :return: Subclass of ``schema_base`` with dataclass fields converted to Marshmallow</span>
+<span class="sd">        fields.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">settings</span> <span class="o">=</span> <span class="n">_configure_settings</span><span class="p">(</span><span class="n">data_class</span><span class="p">,</span> <span class="n">schema_base</span><span class="p">,</span> <span class="n">type_handlers</span><span class="p">)</span>
+    <span class="n">class_dict</span> <span class="o">=</span> <span class="n">_get_schema_dict</span><span class="p">(</span><span class="n">schema_base</span><span class="p">,</span> <span class="n">settings</span><span class="p">)</span>
+
+    <span class="n">this_schema</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{data_class.__name__}</span><span class="s2">Schema&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">schema_base</span><span class="p">,),</span> <span class="n">class_dict</span><span class="p">)</span>
+    <span class="n">this_schema</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">Type</span><span class="p">[</span><span class="n">Schema</span><span class="p">],</span> <span class="n">this_schema</span><span class="p">)</span>
+
+    <span class="c1"># add schema as new type handler.</span>
+    <span class="k">if</span> <span class="n">add_handler</span> <span class="ow">and</span> <span class="n">type_handlers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">type_handlers</span><span class="p">[</span><span class="n">data_class</span><span class="p">]</span> <span class="o">=</span> <span class="n">this_schema</span>
+
+    <span class="c1"># generate the fast encoder for this schema.</span>
+    <span class="k">class</span> <span class="nc">SchemaFastEncoder</span><span class="p">(</span><span class="n">FastEncoder</span><span class="p">,</span> <span class="n">type_handlers</span><span class="o">=</span><span class="n">type_handlers</span><span class="p">):</span>  <span class="c1"># type: ignore</span>
+        <span class="k">pass</span>
+
+    <span class="n">this_schema</span><span class="o">.</span><span class="n">_FAST_ENCODER</span> <span class="o">=</span> <span class="n">SchemaFastEncoder</span>  <span class="c1"># type: ignore</span>
+
+    <span class="k">return</span> <span class="n">this_schema</span>  <span class="c1"># type: ignore</span></div>
+
+
+<div class="viewcode-block" id="schema_for"><a class="viewcode-back" href="../../api_guide.html#grahamcracker.schema_for">[docs]</a><span class="k">def</span> <span class="nf">schema_for</span><span class="p">(</span>
+    <span class="n">data_class</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
+    <span class="n">type_handlers</span><span class="p">:</span> <span class="s2">&quot;Optional[Dict[Type[Any], Type[HandlerType]]]&quot;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">add_handler</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Type</span><span class="p">[</span><span class="n">SchemaType</span><span class="p">]],</span> <span class="n">Type</span><span class="p">[</span><span class="n">SchemaType</span><span class="p">]]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class decorator for Schema class that adds marshmallow fields for ``data_class``</span>
+
+<span class="sd">    :param data_class: class to alter schema for</span>
+<span class="sd">    :param type_handlers: ``{type, Schema}`` mapping of existing schemas to use for</span>
+<span class="sd">        given type.</span>
+<span class="sd">    :return: Same schema class object passed in, with added fields for ``data_class``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">class_gen</span><span class="p">(</span><span class="n">schema_class</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">SchemaType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">SchemaType</span><span class="p">]:</span>
+        <span class="n">gen_class</span> <span class="o">=</span> <span class="n">dataclass_schema</span><span class="p">(</span>
+            <span class="n">data_class</span><span class="p">,</span> <span class="n">schema_class</span><span class="p">,</span> <span class="n">type_handlers</span><span class="p">,</span> <span class="n">add_handler</span><span class="o">=</span><span class="n">add_handler</span>
+        <span class="p">)</span>
+
+        <span class="n">existing_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">schema_class</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
+        <span class="n">existing_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">gen_class</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span>
+
+        <span class="n">existing_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;__doc__&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">existing_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">schema_class</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+
+        <span class="c1"># If the schema doesn&#39;t have it&#39;s own doc string, use the one from the</span>
+        <span class="c1"># dataclass.</span>
+        <span class="k">if</span> <span class="n">schema_class</span><span class="o">.</span><span class="vm">__doc__</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">schema_class</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">data_class</span><span class="o">.</span><span class="vm">__doc__</span>
+
+        <span class="c1"># add schema as new type handler.</span>
+        <span class="k">if</span> <span class="n">add_handler</span> <span class="ow">and</span> <span class="n">type_handlers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">type_handlers</span><span class="p">[</span><span class="n">data_class</span><span class="p">]</span> <span class="o">=</span> <span class="n">schema_class</span>
+
+        <span class="k">return</span> <span class="n">schema_class</span>
+
+    <span class="k">return</span> <span class="n">class_gen</span></div>
+
+
+<span class="k">def</span> <span class="nf">_configure_settings</span><span class="p">(</span>
+    <span class="n">data_class</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span>
+    <span class="n">schema_base</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">SchemaType</span><span class="p">],</span>
+    <span class="n">type_handlers</span><span class="p">:</span> <span class="s2">&quot;Optional[Dict[Type[Any], Type[HandlerType]]]&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_SchemaGenSettings</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;sets up schema settings based on params&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_dataclass</span><span class="p">(</span><span class="n">data_class</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data_class</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{data_class}</span><span class="s2"> is not dataclass type&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">type_handlers</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">type_handlers</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+    <span class="n">docstrings</span> <span class="o">=</span> <span class="n">get_dataclass_field_docstrings</span><span class="p">(</span><span class="n">data_class</span><span class="p">)</span>
+
+    <span class="n">settings</span> <span class="o">=</span> <span class="n">_SchemaGenSettings</span><span class="p">(</span><span class="n">data_class</span><span class="p">,</span> <span class="n">schema_base</span><span class="p">,</span> <span class="n">type_handlers</span><span class="p">,</span> <span class="n">docstrings</span><span class="p">)</span>
+
+    <span class="c1"># remove any handlers who&#39;s types are being properly handled.</span>
+    <span class="n">default_converters</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">FIELD_CONVERSION</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">type_handlers</span>
+    <span class="p">}</span>
+    <span class="n">settings</span><span class="o">.</span><span class="n">type_handlers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">default_converters</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">settings</span>
+
+
+<span class="k">def</span> <span class="nf">_get_schema_dict</span><span class="p">(</span>
+    <span class="n">schema</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Schema</span><span class="p">],</span> <span class="n">settings</span><span class="p">:</span> <span class="n">_SchemaGenSettings</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Monkey-patches marshmallow fields to schema&quot;&quot;&quot;</span>
+    <span class="n">class_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">):</span>
+        <span class="n">class_typevar_mapping</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">data_class</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">type_var_index</span><span class="p">)</span>
+
+    <span class="n">this_field</span><span class="p">:</span> <span class="n">DCField</span>
+    <span class="k">for</span> <span class="n">this_field</span> <span class="ow">in</span> <span class="n">dc_fields</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">data_class</span><span class="p">):</span>
+        <span class="n">class_dict</span><span class="p">[</span><span class="n">this_field</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">_convert_type</span><span class="p">(</span><span class="n">this_field</span><span class="p">,</span> <span class="n">settings</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">DataSchemaConcrete</span><span class="p">):</span>
+        <span class="n">class_dict</span><span class="p">[</span><span class="s2">&quot;__model__&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">data_class</span>
+
+        <span class="n">f</span><span class="p">:</span> <span class="n">DCField</span>
+        <span class="n">class_dict</span><span class="p">[</span><span class="s2">&quot;_dump_only&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">name</span>
+            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">dc_fields</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">data_class</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">metadata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">f</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;garams&quot;</span><span class="p">,</span> <span class="n">Garams</span><span class="p">())</span><span class="o">.</span><span class="n">dump_only</span>
+        <span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">class_dict</span>
+
+
+<span class="k">def</span> <span class="nf">_convert_type</span><span class="p">(</span>
+    <span class="n">data_field</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">DCField</span><span class="p">,</span> <span class="n">Type</span><span class="p">],</span> <span class="n">schema_settings</span><span class="p">:</span> <span class="n">_SchemaGenSettings</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">fields</span><span class="o">.</span><span class="n">Field</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Converts dataclass field to Marshmallow field&quot;&quot;&quot;</span>
+    <span class="n">settings</span> <span class="o">=</span> <span class="n">_FieldGenSettings</span><span class="p">(</span><span class="n">data_field</span><span class="p">,</span> <span class="n">schema_settings</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">is_typevar</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">type</span><span class="p">)</span> <span class="ow">and</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">):</span>
+        <span class="n">_unpack_type_var</span><span class="p">(</span><span class="n">settings</span><span class="p">)</span>
+    <span class="n">settings</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">optional</span> <span class="o">=</span> <span class="n">_unpack_optional</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">is_typevar</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">type</span><span class="p">)</span> <span class="ow">and</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">):</span>
+        <span class="n">_unpack_type_var</span><span class="p">(</span><span class="n">settings</span><span class="p">)</span>
+
+    <span class="n">settings</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="n">optional_second</span> <span class="o">=</span> <span class="n">_unpack_optional</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+    <span class="n">settings</span><span class="o">.</span><span class="n">optional</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">optional</span> <span class="ow">or</span> <span class="n">optional_second</span>
+
+    <span class="n">_validate_type</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+
+    <span class="n">settings</span><span class="o">.</span><span class="n">data_handler</span> <span class="o">=</span> <span class="n">_get_handler_type</span><span class="p">(</span><span class="n">settings</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">data_handler</span><span class="p">,</span> <span class="n">Schema</span><span class="p">):</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">data_handler</span><span class="p">,)</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">data_handler</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Nested</span>
+    <span class="k">elif</span> <span class="p">(</span>
+        <span class="n">is_dataclass</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+        <span class="ow">and</span> <span class="n">settings</span><span class="o">.</span><span class="n">type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">schema_settings</span><span class="o">.</span><span class="n">type_handlers</span>
+    <span class="p">):</span>
+        <span class="c1"># We make a nested schema if a dataclass does not already have a type handler</span>
+        <span class="n">nested_schema</span> <span class="o">=</span> <span class="n">dataclass_schema</span><span class="p">(</span>
+            <span class="n">settings</span><span class="o">.</span><span class="n">type</span><span class="p">,</span>
+            <span class="c1"># We need to pass a clean base here, as the incoming one might have</span>
+            <span class="c1"># validators and the like attached to it from a decorated schema.</span>
+            <span class="n">schema_base</span><span class="o">=</span><span class="n">DataSchemaConcrete</span><span class="p">,</span>
+            <span class="n">type_handlers</span><span class="o">=</span><span class="n">schema_settings</span><span class="o">.</span><span class="n">type_handlers</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">nested_schema</span><span class="p">,)</span>
+    <span class="k">elif</span> <span class="n">is_generic_type</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">type</span><span class="p">):</span>
+        <span class="n">_get_interior_fields</span><span class="p">(</span><span class="n">settings</span><span class="p">)</span>
+
+    <span class="n">_generate_field_options</span><span class="p">(</span><span class="n">settings</span><span class="p">)</span>
+
+    <span class="n">marshmallow_field</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">data_handler</span><span class="p">(</span><span class="o">*</span><span class="n">settings</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">settings</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">marshmallow_field</span>
+
+
+<span class="k">def</span> <span class="nf">_unpack_type_var</span><span class="p">(</span><span class="n">settings</span><span class="p">:</span> <span class="n">_FieldGenSettings</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">schema_settings</span><span class="o">.</span><span class="n">type_var_index</span><span class="p">[</span><span class="n">settings</span><span class="o">.</span><span class="n">type</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Label &#39;</span><span class="si">{settings.type}</span><span class="s2">&#39; does not have concrete type&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_validate_type</span><span class="p">(</span><span class="n">field_type</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;checks for bad field types&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">is_union_type</span><span class="p">(</span><span class="n">field_type</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;model fields cannot contain unions&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">field_type</span> <span class="ow">is</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;model fields cannot have type Any&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_generic_type</span><span class="p">(</span><span class="n">field_type</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">field_type</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;model field collections must be generic type with args&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_get_handler_type</span><span class="p">(</span><span class="n">settings</span><span class="p">:</span> <span class="n">_FieldGenSettings</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">HandlerType</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Gets Marshmallow field/schema based on type&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">handler_type</span><span class="p">,</span> <span class="n">handler</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">schema_settings</span><span class="o">.</span><span class="n">type_handlers</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">test_type</span> <span class="o">=</span> <span class="n">get_origin</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">type</span><span class="p">)</span> <span class="ow">or</span> <span class="n">settings</span><span class="o">.</span><span class="n">type</span>
+        <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">test_type</span><span class="p">,</span> <span class="n">handler_type</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">handler</span>
+
+    <span class="k">if</span> <span class="n">is_dataclass</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">type</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">NestedOptional</span>
+
+    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No type handler exists for </span><span class="si">{settings.type}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_add_field_default</span><span class="p">(</span><span class="n">settings</span><span class="p">:</span> <span class="n">_FieldGenSettings</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Determines defaults for Marshmallow Field and adds them as kwargs for Marshmallow</span>
+<span class="sd">    fields</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># if a field, has a default or default factory, we can add that to the object</span>
+    <span class="n">settings</span><span class="o">.</span><span class="n">data_field</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">DCField</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">data_field</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">data_field</span><span class="o">.</span><span class="n">default</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">DC_MISSING</span><span class="p">:</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;required&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;missing&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">data_field</span><span class="o">.</span><span class="n">default</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;default&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">data_field</span><span class="o">.</span><span class="n">default</span>
+    <span class="k">elif</span> <span class="n">settings</span><span class="o">.</span><span class="n">data_field</span><span class="o">.</span><span class="n">default_factory</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">DC_MISSING</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;required&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;missing&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">data_field</span><span class="o">.</span><span class="n">default_factory</span>  <span class="c1"># type: ignore</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;default&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">data_field</span><span class="o">.</span><span class="n">default_factory</span>  <span class="c1"># type: ignore</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;required&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+
+<span class="k">def</span> <span class="nf">_generate_field_options</span><span class="p">(</span><span class="n">settings</span><span class="p">:</span> <span class="n">_FieldGenSettings</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;generates the options for Marshmallow&#39;s Field class&quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">data_field</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">_add_field_default</span><span class="p">(</span><span class="n">settings</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;required&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># if a field is optional, it is not required</span>
+    <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">optional</span><span class="p">:</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;allow_none&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;allow_none&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">data_field</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">settings</span><span class="o">.</span><span class="n">data_field</span><span class="o">.</span><span class="n">metadata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="c1"># apply docstrings</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">docstring</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">schema_settings</span><span class="o">.</span><span class="n">field_docstrings</span><span class="p">[</span><span class="n">settings</span><span class="o">.</span><span class="n">data_field</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">docstring</span>
+
+    <span class="c1"># handle passed marshmallow params</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">passed_kwargs</span><span class="p">:</span> <span class="n">Garams</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">data_field</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;garams&quot;</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="n">settings</span><span class="o">.</span><span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">asdict</span><span class="p">(</span><span class="n">passed_kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">DEFAULT</span>
+    <span class="p">)</span>
+
+    <span class="c1"># if something is required, marshmallow disallows defaults, so we&#39;ll remove those.</span>
+    <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;required&quot;</span><span class="p">]:</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;missing&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_get_interior_fields</span><span class="p">(</span><span class="n">settings</span><span class="p">:</span> <span class="n">_FieldGenSettings</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts inner fields of a generic to options/arguments for it&#39;s Marshmallow</span>
+<span class="sd">    container.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">inner_fields</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Field</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">_convert_type</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">settings</span><span class="o">.</span><span class="n">schema_settings</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">get_args</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+    <span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">get_origin</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">type</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="n">Mapping</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">MappingABC</span><span class="p">]:</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;keys&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">inner_fields</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;values&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">inner_fields</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">inner_fields</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inner_fields</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">fields</span><span class="o">.</span><span class="n">Nested</span><span class="p">):</span>
+        <span class="c1"># We need to handle lists of schemas differently, so that kwargs are passed</span>
+        <span class="c1"># to them at runtime.</span>
+        <span class="n">inner</span> <span class="o">=</span> <span class="n">inner_fields</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">settings</span><span class="o">.</span><span class="n">data_handler</span> <span class="o">=</span> <span class="n">NestedOptional</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">inner</span><span class="o">.</span><span class="n">nested</span><span class="p">,)</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;many&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="n">inner</span><span class="o">.</span><span class="n">allow_none</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
+            <span class="n">settings</span><span class="o">.</span><span class="n">optional</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">settings</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">inner_fields</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_filter_none_type</span><span class="p">(</span><span class="n">data_type</span><span class="p">:</span> <span class="n">Type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Filters out NoneType when getting union args&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">is_typevar</span><span class="p">(</span><span class="n">data_type</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">data_type</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="kc">True</span>
+
+
+<span class="k">def</span> <span class="nf">_unpack_optional</span><span class="p">(</span><span class="n">data_type</span><span class="p">:</span> <span class="n">Type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Type</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;gets type of optional type&quot;&quot;&quot;</span>
+    <span class="c1"># we need to unpack optional types, which are really just unions with None</span>
+    <span class="n">optional</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">while</span> <span class="n">is_optional_type</span><span class="p">(</span><span class="n">data_type</span><span class="p">):</span>
+        <span class="n">optional</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">data_types</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">get_args</span><span class="p">(</span><span class="n">data_type</span><span class="p">)</span> <span class="k">if</span> <span class="n">_filter_none_type</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_types</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;model fields cannot contain unions&quot;</span><span class="p">)</span>
+        <span class="n">data_type</span> <span class="o">=</span> <span class="n">data_types</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">optional</span>
+
+
+<span class="k">def</span> <span class="nf">get_dataclass_field_docstrings</span><span class="p">(</span><span class="n">data_class</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+    <span class="n">docstring_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">_recurse_dataclass_for_docstrings</span><span class="p">(</span><span class="n">data_class</span><span class="p">,</span> <span class="n">docstring_dict</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">docstring_dict</span>
+
+
+<span class="k">def</span> <span class="nf">_format_field_docstring</span><span class="p">(</span><span class="n">docstring</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Remove leading and trailing newlines from multi-line descriptions, as it can affect</span>
+<span class="sd">    formatting of redoc and other documentation tools.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">docstring</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="n">docstring</span><span class="p">)</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="n">docstring</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Add a period for consistency.</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">description</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">):</span>
+        <span class="n">description</span> <span class="o">+=</span> <span class="s2">&quot;.&quot;</span>
+
+    <span class="c1"># Capitalize first letter for consistency.</span>
+    <span class="n">first_letter</span> <span class="o">=</span> <span class="n">description</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">capitalized</span> <span class="o">=</span> <span class="n">first_letter</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span>
+
+    <span class="n">description</span> <span class="o">=</span> <span class="n">capitalized</span> <span class="o">+</span> <span class="n">description</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+
+    <span class="k">return</span> <span class="n">description</span>
+
+
+<span class="k">def</span> <span class="nf">_recurse_dataclass_for_docstrings</span><span class="p">(</span>
+    <span class="n">data_class</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Any</span><span class="p">],</span> <span class="n">current_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">is_dataclass</span><span class="p">(</span><span class="n">data_class</span><span class="p">):</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">source</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="n">data_class</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">source</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+            <span class="n">parsed</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+            <span class="n">is_attr</span> <span class="o">=</span> <span class="kc">False</span>
+
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">parsed</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">body</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="s2">&quot;target&quot;</span><span class="p">):</span>
+                    <span class="n">is_attr</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="n">attr_name</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">target</span>
+                    <span class="k">continue</span>
+
+                <span class="k">if</span> <span class="n">is_attr</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">attr_name</span><span class="o">.</span><span class="n">id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">current_dict</span><span class="p">:</span>
+                        <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">_format_field_docstring</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">s</span><span class="p">)</span>
+                        <span class="n">current_dict</span><span class="p">[</span><span class="n">attr_name</span><span class="o">.</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">description</span>
+                <span class="k">elif</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="s2">&quot;target&quot;</span><span class="p">):</span>
+                    <span class="n">is_attr</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">for</span> <span class="n">this_class</span> <span class="ow">in</span> <span class="n">data_class</span><span class="o">.</span><span class="vm">__bases__</span><span class="p">:</span>
+        <span class="n">_recurse_dataclass_for_docstrings</span><span class="p">(</span><span class="n">this_class</span><span class="p">,</span> <span class="n">current_dict</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright &#39;2018, Illuscio&#39;
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
